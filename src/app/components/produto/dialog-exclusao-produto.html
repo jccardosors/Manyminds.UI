@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Confirmação de Ativação/Desativação</h1>
+<div mat-dialog-content>Prosseguir com a Ativação/Desativação do produto {{dados.nome}}</div>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Não</button>
+    <button mat-button [mat-dialog-close]="true" (click)="ExcluirProduto(dados.produtoId)">Sim</button>
+</mat-dialog-actions>

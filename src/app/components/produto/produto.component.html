@@ -1,0 +1,83 @@
+
+<div *ngIf="!formulario">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+</div>
+<div class="divCard" *ngIf="formulario">
+    <mat-card>
+
+        <mat-card-header>
+            <mat-card-title>
+                <h3>Cadastro de produtos</h3>
+            </mat-card-title>
+        </mat-card-header>
+
+        <form [formGroup]="formulario" (ngSubmit)="EnviarFormulario()">
+            <div class="cadErros" *ngIf="errors.length > 0">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Atenção</mat-card-title>
+                    </mat-card-header>
+                    <mat-divider></mat-divider>
+                    <mat-card-content>
+                        <div class="divErros">
+                            <h4 class="textoErros" *ngFor="let erro of errors">{{erro}}</h4>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <mat-card-content>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Produto</mat-label>
+                        <input type="text" matInput formControlName="nome" placeholder="Digite o nome do produto" required>
+                    </mat-form-field>
+                    <mat-error *ngIf="propriedade.nome.touched && propriedade.nome.invalid">
+                        <sup>*</sup> Informe um nome
+                    </mat-error>
+                </div>               
+                <div>
+                    <mat-form-field>
+                        <mat-label>Fornecedor</mat-label>
+                        <mat-select formControlName="fornecedorCodigo" required>
+                            <mat-option *ngFor="let fornecedor of fornecedorList" [value]="fornecedor.codigo">{{fornecedor.nome}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error *ngIf="propriedade.fornecedorCodigo.touched && propriedade.fornecedorCodigo.invalid">
+                        <sup>*</sup> Informe um fornecedor
+                    </mat-error>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Valor</mat-label>
+                        <input type="text" matInput formControlName="valor" placeholder="Digite o valor do produto" required>
+                    </mat-form-field>
+                    <mat-error *ngIf="propriedade.valor.touched && propriedade.valor.invalid">
+                        <sup>*</sup> Informe o valor do produto
+                    </mat-error>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Ativo</mat-label>
+                        <mat-select formControlName="ativo" required>                            
+                            <mat-option [value]="true">Sim</mat-option>
+                            <mat-option [value]="false">Não</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-error *ngIf="propriedade.ativo.touched && propriedade.ativo.invalid">
+                        <sup>*</sup> Selecione um ativo
+                    </mat-error>
+                </div>
+            </mat-card-content>
+
+            <mat-divider></mat-divider>
+            <mat-card-actions>
+                <div>
+                    <button type="submit" mat-stroked-button color="primary"
+                        [disabled]="formulario.invalid">Salvar</button>
+                    <button mat-stroked-button type="button" (click)="VoltarListagem()">Voltar</button>
+                </div>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+</div>

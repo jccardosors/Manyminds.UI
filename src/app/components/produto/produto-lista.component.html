@@ -1,0 +1,57 @@
+<div *ngIf="!this.produtosList">
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+</div>
+<div class="dadosCategorias" *ngIf="this.produtosList">
+    <div class="cabecalho">
+        <mat-grid-list cols="2" rowHeight="50px">
+            <mat-grid-tile>
+                <h2 class="titulo">Produtos</h2>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <button mat-stroked-button color="primary" routerLink="/produto-novo">Novo</button>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <table mat-table [dataSource]="this.produtosList" matSort class="mat-elevation-z8 tabela">
+        <ng-container matColumnDef="Codigo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="codigo">Código</th>
+            <td mat-cell *matCellDef="let item">{{item.codigo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="FornecedorCodigo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="fornecedorCodigo">Cod Fornecedor</th>
+            <td mat-cell *matCellDef="let item">{{item.fornecedorCodigo}}</td>
+        </ng-container>   
+        <ng-container matColumnDef="Nome">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="nome">Produto</th>
+            <td mat-cell *matCellDef="let item">{{item.nome}}</td>
+        </ng-container>      
+        <ng-container matColumnDef="Valor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="valor">Valor</th>
+            <td mat-cell *matCellDef="let item">{{item.valor}}</td>
+        </ng-container>   
+        <ng-container matColumnDef="Ativo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="ativo">Ativo</th>
+            <td mat-cell *matCellDef="let item">{{item.ativo}}</td>
+        </ng-container>          
+        <ng-container matColumnDef="Acoes">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let item">
+                <button mat-mini-fab color="primary"
+                    [routerLink]="['/produto-edicao', item.codigo]"><mat-icon>edit</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="AbrirDialog(item.codigo, item.nome)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+            
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns:displayColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[2,4,6,8]" showFirstLastButtons>
+    </mat-paginator>
+</div>

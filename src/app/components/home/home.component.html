@@ -1,0 +1,36 @@
+<app-header></app-header>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
+        <mat-list style="cursor: pointer;">
+            <div>
+                <mat-list-item routerLink="/usuario-lista">
+                    <!-- <mat-icon>reorder</mat-icon>--> Usuário
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+            <div>
+                <mat-list-item routerLink="/produto-lista">
+                    <!-- <mat-icon>supervised_user</mat-icon>--> Produtos
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+            <div>
+                <mat-list-item routerLink="/pedidocompra-lista">
+                    <!-- <mat-icon>supervised_user</mat-icon>--> Pedidos | Compras
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+            <div>
+                <mat-list-item routerLink="/logs-lista">
+                    <!-- <mat-icon>supervised_user</mat-icon>--> Logs
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+        </mat-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet>
+
+        </router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
