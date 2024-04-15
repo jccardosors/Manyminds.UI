@@ -20,22 +20,22 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header="codigo">Código</th>
             <td mat-cell *matCellDef="let item">{{item.codigo}}</td>
         </ng-container>
-        <ng-container matColumnDef="FornecedorCodigo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header="fornecedorCodigo">Cod Fornecedor</th>
-            <td mat-cell *matCellDef="let item">{{item.fornecedorCodigo}}</td>
-        </ng-container>   
+        <ng-container matColumnDef="fornecedorNome">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="fornecedorNome">Fornecedor</th>
+            <td mat-cell *matCellDef="let item">{{item.fornecedorNome}}</td>
+        </ng-container>
         <ng-container matColumnDef="Nome">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="nome">Produto</th>
             <td mat-cell *matCellDef="let item">{{item.nome}}</td>
-        </ng-container>      
+        </ng-container>
         <ng-container matColumnDef="Valor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="valor">Valor</th>
-            <td mat-cell *matCellDef="let item">{{item.valor}}</td>
-        </ng-container>   
+            <td mat-cell *matCellDef="let item">{{ item.valor | currency: 'BRL':true:'1.2-2'}}</td>
+        </ng-container>
         <ng-container matColumnDef="Ativo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="ativo">Ativo</th>
-            <td mat-cell *matCellDef="let item">{{item.ativo}}</td>
-        </ng-container>          
+            <td mat-cell *matCellDef="let item">{{item.ativo === true ? 'Sim' : 'Não'}}</td>
+        </ng-container>
         <ng-container matColumnDef="Acoes">
             <th mat-header-cell *matHeaderCellDef>Ações</th>
             <td mat-cell *matCellDef="let item">
@@ -46,7 +46,7 @@
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
-            
+
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>

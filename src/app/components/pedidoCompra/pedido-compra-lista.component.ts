@@ -38,7 +38,7 @@ export class PedidoCompraListaComponent implements OnInit {
   }
 
   ExibirColunas(): string[] {
-    return ['codigo', 'status', 'fornecedorCodigo', 'observacao', 'valorTotal', 'data', 'acoes'];
+    return ['codigo', 'status', 'fornecedorNome', 'observacao', 'valorTotal', 'data', 'acoes'];
   }
 
 }

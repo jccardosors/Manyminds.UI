@@ -5,4 +5,5 @@ export class PedidoCompra {
     observacao!: string;
     status!: number;
     valorTotal!: number;
+    fornecedorNome: string;
 }

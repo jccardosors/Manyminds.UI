@@ -4,4 +4,5 @@ export class Produto {
     Nome!: string;
     Valor!: number;
     Ativo!: boolean;
+    fornecedorNome: string;
 }

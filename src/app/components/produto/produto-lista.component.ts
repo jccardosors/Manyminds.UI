@@ -46,7 +46,7 @@ export class ProdutoListaComponent implements OnInit {
   }
 
   ExibirColunas(): string[] {
-    return ['Codigo', 'FornecedorCodigo', 'Nome', 'Valor', 'Ativo', 'Acoes'];
+    return ['Codigo', 'fornecedorNome', 'Nome', 'Valor', 'Ativo', 'Acoes'];
   }
 
   AbrirDialog(produtoId: number, nome: string): void {

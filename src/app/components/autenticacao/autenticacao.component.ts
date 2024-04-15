@@ -8,12 +8,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './autenticacao.component.html',
   styleUrl: './autenticacao.component.css'
 })
-export class AutenticacaoComponent implements OnInit {
+export class AutenticacaoComponent implements OnInit { 
   formulario: any;
   errors!: string[];
 
-  constructor(private autenticacaoService: AutenticacaoService, private router: Router) {
-
+  constructor(private autenticacaoService: AutenticacaoService, private router: Router) {   
   }
 
   ngOnInit(): void {
