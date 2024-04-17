@@ -24,11 +24,13 @@ import { ProdutoComponent } from './components/produto/produto.component';
 import { HomeComponent } from './components/home/home.component';
 import { CabecalhoComponent } from './components/cabecalho/cabecalho.component';
 import { DialogExclusaoProdutoComponent, ProdutoListaComponent } from './components/produto/produto-lista.component';
-import { PedidoCompraListaComponent } from './components/pedidoCompra/pedido-compra-lista.component';
+import { DialogExclusaoPedidoComponent, PedidoCompraListaComponent } from './components/pedidoCompra/pedido-compra-lista.component';
 import { RegistroLogsListaComponent } from './components/registroLogs/registro-logs-lista.component';
 import { UsuarioListaComponent } from './components/usuario/usuario-lista.component';
 import { UsuarioEdicaoComponent } from './components/usuario/usuario-edicao.component';
 import { ProdutoEdicaoComponent } from './components/produto/produto-edicao.component';
+import { PedidoCompraEdicaoComponent } from './components/pedidoCompra/pedido-compra-edicao.component';
+import { DialogAdicionarItemComponent, PedidoCompraComponent } from './components/pedidoCompra/pedido-compra.component';
 
 //material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -42,7 +44,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -51,9 +53,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PedidoCompraItemService } from './services/pedido-compra-item.service';
+import { NgFor } from '@angular/common';
+
+
 
 @NgModule({
-  declarations: [
+  declarations: [ 
     AppComponent,
     AutenticacaoComponent,
     UsuarioComponent,
@@ -66,17 +72,28 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     UsuarioEdicaoComponent,
     ProdutoComponent,
     ProdutoEdicaoComponent,
-    DialogExclusaoProdutoComponent
+    DialogExclusaoProdutoComponent,
+    DialogExclusaoPedidoComponent,
+    PedidoCompraEdicaoComponent,
+    PedidoCompraComponent,
+    DialogAdicionarItemComponent,
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, FormsModule, ReactiveFormsModule, MatTableModule, MatIconModule, MatButtonModule,
     MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatSelectModule, MatGridListModule, MatDialogModule,
-    MatAutocompleteModule, MatPaginatorModule, MatSortModule, MatSnackBarModule, MatProgressBarModule, MatSidenavModule, MatListModule, MatToolbarModule,
+    MatAutocompleteModule, MatPaginatorModule, MatSortModule, MatSnackBarModule, MatProgressBarModule, MatSidenavModule, 
+    MatListModule, MatToolbarModule,
     FlexLayoutModule
   ],
-  providers: [AutenticacaoService, ApiConfigService, UsuarioService, ProdutoService, UtilsService, RegistroLogsService, PedidoCompraService, DialogExclusaoProdutoComponent, provideClientHydration(), provideAnimationsAsync()],
+  providers: [AutenticacaoService, ApiConfigService, UsuarioService, ProdutoService, UtilsService, RegistroLogsService, 
+    PedidoCompraService, PedidoCompraItemService, 
+    DialogExclusaoProdutoComponent, DialogExclusaoPedidoComponent, DialogAdicionarItemComponent,
+     provideClientHydration(), provideAnimationsAsync(),    
+     { provide: MatDialogRef, useValue: {} },
+     { provide: MAT_DIALOG_DATA, useValue: {}}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

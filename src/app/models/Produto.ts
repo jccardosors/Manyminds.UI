@@ -1,8 +1,8 @@
 export class Produto {
     codigo!: number;
-    FornecedorCodigo!: number;
-    Nome!: string;
-    Valor!: number;
-    Ativo!: boolean;
+    fornecedorCodigo!: number;
+    nome!: string;
+    valor!: number;
+    ativo!: boolean;
     fornecedorNome: string;
 }

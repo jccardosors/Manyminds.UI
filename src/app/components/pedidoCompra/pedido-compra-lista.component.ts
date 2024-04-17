@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { PedidoCompra } from '../../models/PedidoCompra';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PedidoCompraService } from '../../services/pedido-compra.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pedido-compra-lista',
@@ -41,4 +42,51 @@ export class PedidoCompraListaComponent implements OnInit {
     return ['codigo', 'status', 'fornecedorNome', 'observacao', 'valorTotal', 'data', 'acoes'];
   }
 
+  AbrirDialogExclusao(pedidoId: number): void {
+    this.dialog.open(DialogExclusaoPedidoComponent, {
+      data: {
+        pedidoId: pedidoId
+      }
+    }).afterClosed().subscribe(resultado => {
+      debugger;
+      console.log('=================================>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + resultado);
+      if (resultado === true) {
+        setTimeout(() => {
+          this.pedidoCompraService.RetornarPedidosLista().subscribe(resposta => {
+            console.log('retorno =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            console.log(resposta);
+            debugger;
+            this.pedidoCompraList.data = resposta.data;
+          });
+
+        }, 2000);
+      }
+    });
+  }
+
+}
+
+@Component({
+  selector: 'app-dialog-exclusao-pedido',
+  templateUrl: './dialog-exclusao-pedido.html'
+})
+export class DialogExclusaoPedidoComponent {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public dados: any,
+    private pedicoCompraService: PedidoCompraService,
+    private snackBar: MatSnackBar) {
+
+  }
+
+  ExcluirPedido(pedidoId: number): void {
+    this.pedicoCompraService.ExcluirPedidoCompra(pedidoId).subscribe(resposta => {
+      debugger;
+      console.log(resposta);
+      this.snackBar.open(resposta.message, null, {
+        duration: 7000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top'
+      });
+    });
+  }
 }

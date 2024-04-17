@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Confirmação de Esclusão</h1>
+<div mat-dialog-content>Prosseguir com a exclusão do pedido de compra código: {{dados.pedidoId}}</div>
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Não</button>
+    <button mat-button [mat-dialog-close]="true" (click)="ExcluirPedido(dados.pedidoId)">Sim</button>
+</mat-dialog-actions>

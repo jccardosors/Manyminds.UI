@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Produto } from '../../models/Produto';
 import { ProdutoService } from '../../services/produto.service';
 
+let teste: string | '';
 @Component({
   selector: 'app-produto-lista',
   templateUrl: './produto-lista.component.html',
@@ -17,6 +18,7 @@ import { ProdutoService } from '../../services/produto.service';
 })
 export class ProdutoListaComponent implements OnInit {
 
+  retornomodal: string | '';
   produtosList = new MatTableDataSource<Produto>();
   displayColumns: string[] | undefined;
 
@@ -27,7 +29,7 @@ export class ProdutoListaComponent implements OnInit {
   sort: MatSort | undefined
 
   constructor(private produtoService: ProdutoService, private dialog: MatDialog) {
-
+    this.retornomodal = 'xxxxx';
   }
 
   ngOnInit(): void {
@@ -49,7 +51,7 @@ export class ProdutoListaComponent implements OnInit {
     return ['Codigo', 'fornecedorNome', 'Nome', 'Valor', 'Ativo', 'Acoes'];
   }
 
-  AbrirDialog(produtoId: number, nome: string): void {
+  AbrirDialog(produtoId: number, nome: string): any {
     this.dialog.open(DialogExclusaoProdutoComponent, {
       data: {
         produtoId: produtoId,
@@ -60,6 +62,9 @@ export class ProdutoListaComponent implements OnInit {
       console.log('=================================>>>>>>>>>>>>>>>>>>>>>>>>>>>> ' + resultado);
       if (resultado === true) {
         setTimeout(() => {
+          this.retornomodal = teste;
+
+
           this.produtoService.RetornarTodosProdutos().subscribe(resposta => {
             console.log('retorno =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
             console.log(resposta);
@@ -70,6 +75,10 @@ export class ProdutoListaComponent implements OnInit {
         }, 2000);
       }
     });
+  }
+
+  retornoTeste(): string {
+    return this.retornomodal;
   }
 
 }
@@ -96,5 +105,7 @@ export class DialogExclusaoProdutoComponent {
         verticalPosition: 'top'
       });
     });
+
+    teste = "abc 123";
   }
 }

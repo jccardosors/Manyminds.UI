@@ -1,0 +1,28 @@
+<form #form="ngForm" novalidate (ngSubmit)="onSubmit(form.value)">
+    <div class="example-container">
+        <input type="hidden" ngModel name="id" />
+        <mat-form-field>
+            <input name="codigo" #codigo required ngModel matInput placeholder="codigo">
+            <!-- <mat-error *ngIf="!fname.invalid">Required</mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput #pedidoCompraCodigo name="pedidoCompraCodigo" required ngModel placeholder="pedidoCompraCodigo">
+            <!-- <mat-error *ngIf="!lname.invalid">Required</mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput #produtoCodigo name="produtoCodigo" required ngModel placeholder="produtoCodigo">
+            <!-- <mat-error *ngIf="!mob.invalid">Required</mat-error> -->
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput #quantidade name="quantidade" required ngModel placeholder="quantidade">
+            <!-- <mat-error *ngIf="!mob.invalid">Required</mat-error> -->
+        </mat-form-field>
+        <div mat-dialog-actions>
+            <button mat-flat-button color="primary" [disabled]="!form.valid">Submit</button> &nbsp;
+            <button mat-flat-button color="warn" mat-dialog-close>Close</button>
+        </div>
+    </div>
+
+</form>

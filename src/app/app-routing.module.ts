@@ -10,6 +10,8 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { UsuarioEdicaoComponent } from './components/usuario/usuario-edicao.component';
 import { ProdutoComponent } from './components/produto/produto.component';
 import { ProdutoEdicaoComponent } from './components/produto/produto-edicao.component';
+import { PedidoCompraComponent } from './components/pedidoCompra/pedido-compra.component';
+import { PedidoCompraEdicaoComponent } from './components/pedidoCompra/pedido-compra-edicao.component';
 
 const routes: Routes = [{
   path: '',
@@ -32,6 +34,12 @@ const routes: Routes = [{
     },
     {
       path: 'pedidocompra-lista', component: PedidoCompraListaComponent
+    },
+    {
+      path: 'pedidocompra-novo', component: PedidoCompraComponent
+    },
+    {
+      path: 'pedicocompra-edicao', component: PedidoCompraEdicaoComponent
     },
     {
       path: 'logs-lista', component: RegistroLogsListaComponent
