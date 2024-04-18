@@ -14,7 +14,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PedidoCompraItemService } from '../../services/pedido-compra-item.service';
 import { NgForm } from '@angular/forms';
-//let itensPedidoList = new MatTableDataSource<PedidoCompraItem>();
 
 @Component({
   selector: 'app-pedido-compra',
@@ -27,43 +26,31 @@ export class PedidoCompraComponent implements OnInit, OnChanges {
   errors: string[] = [];
   displayColumns: string[] | undefined;
   itensList = new MatTableDataSource<PedidoCompraItem>();
-  reAbrirModal: boolean | false;
-
-  // @ViewChild(MatTable, { static: true }) tableTesteList: MatTable<PedidoCompraItem>;
-
-  // @ViewChild(MatPaginator, { static: true })
-  // paginator: MatPaginator | undefined;
-
-  // @ViewChild(MatSort, { static: false })
-  // sort: MatSort | undefined
+  reAbrirModal: boolean | false; 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private fornecedorService: FornecedorService, private pedidoCompra: PedidoCompraService, private router: Router,
     private snackBar: MatSnackBar, private dialog: MatDialog,
     public datadialogRef: MatDialogRef<DialogAdicionarItemComponent>,
     private pedidoCompraItemService: PedidoCompraItemService, private changeDetectorRefs: ChangeDetectorRef) { }
- 
-   ngOnChanges(changes: SimpleChanges): void {
+
+  ngOnChanges(changes: SimpleChanges): void {
     console.log('passou no onchanges', this.itensList);
-    if(this.reAbrirModal){
-    this.AbrirDialogAddItem();
+    if (this.reAbrirModal) {
+      this.AbrirDialogAddItem();
     }
   }
 
   ngOnInit(): void {
     this.errors = [];
+    let date: Date = new Date();
+
     this.fornecedorService.RetornarTodosFornecedores().subscribe(response => {
       this.fornecedorList = response.data;
-
-      // this.itensList.data = [];
-      // this.itensList.sort = this.sort;
-
     });
 
     this.itensList = new MatTableDataSource<PedidoCompraItem>(this.pedidoCompraItemService.getData());
-    this.itensList.paginator = this.paginator;
-
-    let date: Date = new Date();
+    this.itensList.paginator = this.paginator;    
 
     this.formulario = new FormGroup({
       data: new FormControl(date.toLocaleDateString(), [Validators.required]),
@@ -117,110 +104,25 @@ export class PedidoCompraComponent implements OnInit, OnChanges {
   AbrirDialogAddItem() {
     this.reAbrirModal = false;
     const dialogConfig = new MatDialogConfig();
-   
-    // dialogConfig.position = {
-    //   right: '0'
-    // };
+
     dialogConfig.width = '60%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
     const dataRef = this.dialog.open(DialogAdicionarItemComponent, dialogConfig);
-    dataRef.afterClosed().subscribe(result => {
-      console.log(result);
-      console.log('passou no afterclose');
-      let itemdata = dataRef.componentRef.instance.getDados();
-      console.log(itemdata);
-     
-    
 
+    dataRef.afterClosed().subscribe(result => {
       if (result === 1) {
-       // this.itensList.data.push(itemdata[0]);
-      this.reAbrirModal = true;
-      } else{ 
+        this.reAbrirModal = true;
+      } else {
         this.reAbrirModal = false;
       }
 
       this.itensList.paginator = this.paginator;
       this.itensList._updateChangeSubscription();
       this.changeDetectorRefs.detectChanges();
-
-              this.ngOnChanges(null);
-
+      this.ngOnChanges(null);
     });
-
-    //  dataRef.beforeClosed().subscribe(result => {
-    //    console.log(result);
-    //    console.log('passou no beforclose');
-    //    let itemdata = dataRef.componentRef.instance.getDados();
-    //    console.log(itemdata[0]);
-    //    this.itensList.data.push(itemdata[0]);
-    //    this.itensList.paginator = this.paginator;
-    //    this.itensList._updateChangeSubscription();
-    //    this.changeDetectorRefs.detectChanges();
-
-     
-    //  });
-
-    // dataRef.afterOpened().subscribe(result => {
-    //   console.log(result);
-    //   console.log('passou no afterOpened');
-    // });
-
-   
-
-    // let itemModalDialog = this.dialog.open(DialogAdicionarItemComponent, {});
-
-    // itemModalDialog.beforeClosed().subscribe(resultado => {
-    //   this.tableTesteList.dataSource = itensPedidoList.data;
-    //     this.itensList = new MatTableDataSource<PedidoCompraItem>(itensPedidoList.data);
-    //     this.itensList._updateChangeSubscription();
-    //    // this.itensList.data = itensPedidoList.data
-    //     this.itensList.sort = this.sort;
-    //     this.itensList.paginator = this.paginator;
-    //     this.itensList._updateChangeSubscription();
-    // this.itensList.connect().next(itensPedidoList.data);
-    // this.paginator._changePageSize(this.paginator.pageSize);
-    // let clone1 = itensPedidoList.data.slice();
-    // this.itensList.data = clone1;
-    // this.itensList.data = itensPedidoList.data;
-    // this.itensList.connect().next(itensPedidoList.data);
-    // this.itensList.data.filter(a => a);
-    // this.changeDetectorRefs.detectChanges();
-    // console.log(this.itensList.data);
-    // console.log(itensPedidoList.data);
-
-    // this.changeDetectorRefs.detectChanges();
-    //    this.tableTesteList.renderRows();
-    // });
-
-    // itemModalDialog.afterClosed().subscribe(resultado => {
-    //   this.tableTesteList.dataSource = itensPedidoList.data;
-    //     this.itensList = new MatTableDataSource<PedidoCompraItem>(itensPedidoList.data);
-    //     this.itensList._updateChangeSubscription();
-    //     // this.itensList.data = itensPedidoList.data;
-    //     this.itensList.sort = this.sort;
-    //     this.itensList.paginator = this.paginator;
-    //     this.itensList._updateChangeSubscription();
-    // this.itensList.connect().next(itensPedidoList.data);
-    // this.paginator._changePageSize(this.paginator.pageSize);
-    // let clone1 = itensPedidoList.data.slice();
-    // this.itensList.data = clone1;
-    //this.itensList.data = itensPedidoList.data;
-    // this.itensList.connect().next(itensPedidoList.data);
-    //  this.itensList.data.filter(a => a);
-    //  this.changeDetectorRefs.detectChanges();
-    //  this.itensList.data.filter(a => a);
-    // console.log(this.itensList.data);
-    // console.log(itensPedidoList.data);
-    //  this.itensList.sortData.apply.bind;
-    //     this.changeDetectorRefs.detectChanges();
-    //     this.tableTesteList.renderRows();
-    // });
-
-    // this.itensList.data.filter(a => a);
-    // this.changeDetectorRefs.detectChanges();
-    // this.itensList.data.filter(a => a);
   }
 
   onNoClick(): void {
@@ -232,41 +134,21 @@ export class PedidoCompraComponent implements OnInit, OnChanges {
   selector: 'app-dialog-adicionar-item',
   templateUrl: './dialog-adicionar-item.html'
 })
-export class DialogAdicionarItemComponent implements OnInit, OnChanges {
+export class DialogAdicionarItemComponent implements OnInit {
 
   dataSource = new MatTableDataSource<PedidoCompraItem>();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  // formularioItem: any;
   produto_List: Produto[] | [];
-  // errors: string[] = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public dialogRef: MatDialogRef<DialogAdicionarItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PedidoCompraItem, private produtoService: ProdutoService,
     private dataService: PedidoCompraItemService, private changeDetectorRefs: ChangeDetectorRef) { }
 
-
-  ngOnChanges(changes: SimpleChanges): void {
-  //  console.log('passou no onchanges', this.)
-  }
-
-
   ngOnInit(): void {
-    //this.errors = [];
     this.produtoService.RetornarTodosProdutos().subscribe(response => {
       this.produto_List = response.data;
       console.log(this.produto_List);
     });
-
-    // setTimeout(() => {
-    // this.formularioItem = new FormGroup({
-    //   codigo: new FormControl(0, [Validators.required]),
-    //   pedidoCompraCodigo: new FormControl(0, [Validators.required, Validators.maxLength(150)]),
-    //   produtoCodigo: new FormControl(0, [Validators.required]),
-    //   quantidade: new FormControl(0, [Validators.required]),
-    //   valor: new FormControl(0, [Validators.required]),
-    // });
-    // }, 3000);
   }
 
   onSubmit(formData) {
@@ -274,35 +156,13 @@ export class DialogAdicionarItemComponent implements OnInit, OnChanges {
     formData.id = id;
     this.dataService.addData(formData);
     this.dialogRef.close(1);
-    //   this.changeDetectorRefs.detectChanges();
-
-    //   this.dialogRef.afterOpened().subscribe(res => {
-    //     console.log(this.dataService);
-    //     console.log('this.dialogRef.afterOpened');
-    //     return this.dataService;
-    //   });
-    // }
-
-
-    // EnviarFormularioItem(): void {
-    //   let pedidoItem = this.formularioItem.value;
-    //   itensPedidoList.data.push(pedidoItem);
-    //   this.formularioItem.reset();
-
-
-
   }
-
-  // get propriedadeItens() {
-  //   return this.formularioItem.controls;
-  // }
 
   onYesClick(): void {
     this.dialogRef.close(0);
   }
 
-  getDados():PedidoCompraItem[]{
+  getDados(): PedidoCompraItem[] {
     return this.dataService.getData();
   }
-
 }
