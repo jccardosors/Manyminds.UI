@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { Fornecedor } from '../../models/Fornecedor';
 import { FornecedorService } from '../../services/fornecedor.service';
 import { PedidoCompraService } from '../../services/pedido-compra.service';
@@ -13,7 +13,7 @@ import { ProdutoService } from '../../services/produto.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { PedidoCompraItemService } from '../../services/pedido-compra-item.service';
-import {NgForm} from '@angular/forms';
+import { NgForm } from '@angular/forms';
 //let itensPedidoList = new MatTableDataSource<PedidoCompraItem>();
 
 @Component({
@@ -21,12 +21,13 @@ import {NgForm} from '@angular/forms';
   templateUrl: './pedido-compra.component.html',
   styleUrl: './pedido-compra.component.css'
 })
-export class PedidoCompraComponent implements OnInit {
+export class PedidoCompraComponent implements OnInit, OnChanges {
   formulario: any;
   fornecedorList: Fornecedor[] | [];
   errors: string[] = [];
   displayColumns: string[] | undefined;
   itensList = new MatTableDataSource<PedidoCompraItem>();
+  reAbrirModal: boolean | false;
 
   // @ViewChild(MatTable, { static: true }) tableTesteList: MatTable<PedidoCompraItem>;
 
@@ -38,9 +39,16 @@ export class PedidoCompraComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private fornecedorService: FornecedorService, private pedidoCompra: PedidoCompraService, private router: Router,
-    private snackBar: MatSnackBar, private dialog: MatDialog, 
-    private datadialogRef: MatDialogRef<DialogAdicionarItemComponent>,
-     private pedidoCompraItemService: PedidoCompraItemService) { }
+    private snackBar: MatSnackBar, private dialog: MatDialog,
+    public datadialogRef: MatDialogRef<DialogAdicionarItemComponent>,
+    private pedidoCompraItemService: PedidoCompraItemService, private changeDetectorRefs: ChangeDetectorRef) { }
+ 
+   ngOnChanges(changes: SimpleChanges): void {
+    console.log('passou no onchanges', this.itensList);
+    if(this.reAbrirModal){
+    this.AbrirDialogAddItem();
+    }
+  }
 
   ngOnInit(): void {
     this.errors = [];
@@ -50,10 +58,9 @@ export class PedidoCompraComponent implements OnInit {
       // this.itensList.data = [];
       // this.itensList.sort = this.sort;
 
-
     });
 
-    this.itensList = new MatTableDataSource<PedidoCompraItem>(this.pedidoCompraItemService.getData());   
+    this.itensList = new MatTableDataSource<PedidoCompraItem>(this.pedidoCompraItemService.getData());
     this.itensList.paginator = this.paginator;
 
     let date: Date = new Date();
@@ -108,18 +115,59 @@ export class PedidoCompraComponent implements OnInit {
   }
 
   AbrirDialogAddItem() {
+    this.reAbrirModal = false;
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = {
-      right: '0'
-    };
+   
+    // dialogConfig.position = {
+    //   right: '0'
+    // };
     dialogConfig.width = '60%';
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
     const dataRef = this.dialog.open(DialogAdicionarItemComponent, dialogConfig);
     dataRef.afterClosed().subscribe(result => {
+      console.log(result);
+      console.log('passou no afterclose');
+      let itemdata = dataRef.componentRef.instance.getDados();
+      console.log(itemdata);
+     
+    
+
+      if (result === 1) {
+       // this.itensList.data.push(itemdata[0]);
+      this.reAbrirModal = true;
+      } else{ 
+        this.reAbrirModal = false;
+      }
+
       this.itensList.paginator = this.paginator;
+      this.itensList._updateChangeSubscription();
+      this.changeDetectorRefs.detectChanges();
+
+              this.ngOnChanges(null);
+
     });
+
+    //  dataRef.beforeClosed().subscribe(result => {
+    //    console.log(result);
+    //    console.log('passou no beforclose');
+    //    let itemdata = dataRef.componentRef.instance.getDados();
+    //    console.log(itemdata[0]);
+    //    this.itensList.data.push(itemdata[0]);
+    //    this.itensList.paginator = this.paginator;
+    //    this.itensList._updateChangeSubscription();
+    //    this.changeDetectorRefs.detectChanges();
+
+     
+    //  });
+
+    // dataRef.afterOpened().subscribe(result => {
+    //   console.log(result);
+    //   console.log('passou no afterOpened');
+    // });
+
+   
 
     // let itemModalDialog = this.dialog.open(DialogAdicionarItemComponent, {});
 
@@ -184,7 +232,7 @@ export class PedidoCompraComponent implements OnInit {
   selector: 'app-dialog-adicionar-item',
   templateUrl: './dialog-adicionar-item.html'
 })
-export class DialogAdicionarItemComponent implements OnInit {
+export class DialogAdicionarItemComponent implements OnInit, OnChanges {
 
   dataSource = new MatTableDataSource<PedidoCompraItem>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -195,9 +243,14 @@ export class DialogAdicionarItemComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<DialogAdicionarItemComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PedidoCompraItem, private produtoService: ProdutoService,
-     private dataService: PedidoCompraItemService) { }
+    private dataService: PedidoCompraItemService, private changeDetectorRefs: ChangeDetectorRef) { }
 
- 
+
+  ngOnChanges(changes: SimpleChanges): void {
+  //  console.log('passou no onchanges', this.)
+  }
+
+
   ngOnInit(): void {
     //this.errors = [];
     this.produtoService.RetornarTodosProdutos().subscribe(response => {
@@ -217,28 +270,39 @@ export class DialogAdicionarItemComponent implements OnInit {
   }
 
   onSubmit(formData) {
-     let id = this.dataService.getData().length + 1;
-     formData.id = id;
+    let id = this.dataService.getData().length + 1;
+    formData.id = id;
     this.dataService.addData(formData);
-    this.dialogRef.close(false);
+    this.dialogRef.close(1);
+    //   this.changeDetectorRefs.detectChanges();
+
+    //   this.dialogRef.afterOpened().subscribe(res => {
+    //     console.log(this.dataService);
+    //     console.log('this.dialogRef.afterOpened');
+    //     return this.dataService;
+    //   });
+    // }
+
+
+    // EnviarFormularioItem(): void {
+    //   let pedidoItem = this.formularioItem.value;
+    //   itensPedidoList.data.push(pedidoItem);
+    //   this.formularioItem.reset();
+
+
+
   }
-
-  // EnviarFormularioItem(): void {
-  //   let pedidoItem = this.formularioItem.value;
-  //   itensPedidoList.data.push(pedidoItem);
-  //   this.formularioItem.reset();
-
-
-
-  // }
 
   // get propriedadeItens() {
   //   return this.formularioItem.controls;
   // }
 
   onYesClick(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(0);
   }
 
+  getDados():PedidoCompraItem[]{
+    return this.dataService.getData();
+  }
 
 }
