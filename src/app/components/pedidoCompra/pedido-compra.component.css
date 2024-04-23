@@ -1,3 +1,10 @@
-.matFormFieldMargin{
-    padding: 5px;
+.example-container{
+   text-align: center!important;
+   padding: 15px;
+   background-color: red!important;
+}
+
+.mat-mdc-form-field-modal{
+    padding: 20px;
+  
 }

@@ -30,7 +30,7 @@ import { UsuarioListaComponent } from './components/usuario/usuario-lista.compon
 import { UsuarioEdicaoComponent } from './components/usuario/usuario-edicao.component';
 import { ProdutoEdicaoComponent } from './components/produto/produto-edicao.component';
 import { PedidoCompraEdicaoComponent } from './components/pedidoCompra/pedido-compra-edicao.component';
-import { DialogAdicionarItemComponent, PedidoCompraComponent } from './components/pedidoCompra/pedido-compra.component';
+import { DialogAdicionarItemComponent, DialogExcluirPedidoCompraItemComponent, PedidoCompraComponent } from './components/pedidoCompra/pedido-compra.component';
 
 //material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -56,8 +56,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { PedidoCompraItemService } from './services/pedido-compra-item.service';
 import { NgFor } from '@angular/common';
 
-
-
 @NgModule({
   declarations: [ 
     AppComponent,
@@ -77,7 +75,7 @@ import { NgFor } from '@angular/common';
     PedidoCompraEdicaoComponent,
     PedidoCompraComponent,
     DialogAdicionarItemComponent,
-   
+    DialogExcluirPedidoCompraItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +88,7 @@ import { NgFor } from '@angular/common';
   ],
   providers: [AutenticacaoService, ApiConfigService, UsuarioService, ProdutoService, UtilsService, RegistroLogsService, 
     PedidoCompraService, PedidoCompraItemService, 
-    DialogExclusaoProdutoComponent, DialogExclusaoPedidoComponent, DialogAdicionarItemComponent,
+    DialogExclusaoProdutoComponent, DialogExclusaoPedidoComponent, DialogAdicionarItemComponent, DialogExcluirPedidoCompraItemComponent,
      provideClientHydration(), provideAnimationsAsync(),    
      { provide: MatDialogRef, useValue: {} },
      { provide: MAT_DIALOG_DATA, useValue: {}}],

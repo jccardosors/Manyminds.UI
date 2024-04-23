@@ -3,4 +3,6 @@ export class PedidoCompraItem {
     pedidoCompraCodigo!: number;
     produtoCodigo!: number;
     quantidade!: number;
+    nomeProduto!: string;
+    valorProduto: number;
 }

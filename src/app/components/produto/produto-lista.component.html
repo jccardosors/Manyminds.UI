@@ -12,8 +12,6 @@
             </mat-grid-tile>
         </mat-grid-list>
     </div>
-{{retornomodal}}
-    <mat-divider>Teste: {{this.retornoTeste()}}</mat-divider>
     <table mat-table [dataSource]="this.produtosList" matSort class="mat-elevation-z8 tabela">
         <ng-container matColumnDef="Codigo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header="codigo">Código</th>

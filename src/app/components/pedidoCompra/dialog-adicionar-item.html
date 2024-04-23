@@ -1,28 +1,46 @@
-<form #form="ngForm" novalidate (ngSubmit)="onSubmit(form.value)">
+<!-- <form #form="ngForm" novalidate (ngSubmit)="onSubmit(form.value)" > -->
+<form>
     <div class="example-container">
-        <input type="hidden" ngModel name="id" />
-        <mat-form-field>
-            <input name="codigo" #codigo required ngModel matInput placeholder="codigo">
-            <!-- <mat-error *ngIf="!fname.invalid">Required</mat-error> -->
+        <input type="hidden" [readOnly]="true" [disabled]="true" id="inputTextCodigo" name="codigo"
+            [(ngModel)]="pedidoCompraItem.codigo" #codigo="ngModel" />
+        <mat-error *ngIf="pedidoCompraItem.codigo == 0">
+            <sup>*</sup> Informe um códgio
+        </mat-error>
+        <input type="hidden" [readOnly]="true" [disabled]="true" id="inputTextPedidoCompraCodigo"
+            name="pedidoCompraCodigo" [(ngModel)]="pedidoCompraItem.pedidoCompraCodigo" #pedidoCompraCodigo="ngModel" />
+        <mat-error *ngIf="pedidoCompraItem.pedidoCompraCodigo == 0">
+            <sup>*</sup> Informe o código de pedido de Compra
+        </mat-error>
+        <mat-form-field class="matFormFieldMargin mat-mdc-form-field-modal">
+            <mat-label>Produto</mat-label>
+            <mat-select #produtoCodigo id="inputSelectProdutoCodigo" name="produtoCodigo"
+                [(ngModel)]="pedidoCompraItem.produtoCodigo" (selectionChange)="onMostrarValor($event)" matInput
+                required>
+                @for (food of this.produto_List; track food) {
+                <mat-option [value]="food.codigo">{{food.nome}}</mat-option>
+                }
+            </mat-select>
         </mat-form-field>
-
-        <mat-form-field>
-            <input matInput #pedidoCompraCodigo name="pedidoCompraCodigo" required ngModel placeholder="pedidoCompraCodigo">
-            <!-- <mat-error *ngIf="!lname.invalid">Required</mat-error> -->
+        <mat-form-field class="matFormFieldMargin mat-mdc-form-field-modal">
+            <mat-label>Quantidade</mat-label>
+            <input type="text" id="inputTextQuantidade" name="quantidade" [(ngModel)]="pedidoCompraItem.quantidade"
+                #quantidade="ngModel" required matInput>
+            <mat-error *ngIf="quantidade.invalid && (quantidade.dirty || quantidade.touched)">
+                <sup>*</sup> Informe um Produto
+            </mat-error>
         </mat-form-field>
-
-        <mat-form-field>
-            <input matInput #produtoCodigo name="produtoCodigo" required ngModel placeholder="produtoCodigo">
-            <!-- <mat-error *ngIf="!mob.invalid">Required</mat-error> -->
+        <mat-form-field class="matFormFieldMargin mat-mdc-form-field-modal">
+            <mat-label>Valor</mat-label>
+            <input matInput [readOnly]="true" [disabled]="true" id="inputTextValorProduto" name="valorProduto"
+                [(ngModel)]="pedidoCompraItem.valorProduto" #valorProduto="ngModel" />
+            <mat-error *ngIf="pedidoCompraItem.valorProduto == 0 && pedidoCompraItem.valorProduto === undefined">
+                <sup>*</sup> Informe um valor
+            </mat-error>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput #quantidade name="quantidade" required ngModel placeholder="quantidade">
-            <!-- <mat-error *ngIf="!mob.invalid">Required</mat-error> -->
-        </mat-form-field>
-        <div mat-dialog-actions>
-            <button mat-flat-button color="primary" [disabled]="!form.valid">Submit</button> &nbsp;
+        <div mat-dialog-actions style="text-align: left;">
+            <button mat-flat-button color="primary" [disabled]="pedidoCompraItem === undefined"
+                (click)="cadastrar()">Submit</button> &nbsp;
             <button mat-flat-button color="warn" mat-dialog-close>Close</button>
         </div>
     </div>
-
 </form>

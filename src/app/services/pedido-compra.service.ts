@@ -32,7 +32,7 @@ export class PedidoCompraService {
     return resposta;
   }
 
-  ExcluirPedidoCompra(codigo: number): Observable<any> {   
+  ExcluirPedidoCompra(codigo: number): Observable<any> {
     debugger;
     let apiUrl = `${this.url}/PedidoCompra/ExcluirPedidoCompra?codigo=${codigo}`;
 
@@ -48,8 +48,9 @@ export class PedidoCompraService {
   AdicionarPedidoCompra(item: PedidoCompraRequest): Observable<any> {
     item.Pedido.codigo = 0;
     let apiUrl = `${this.url}/PedidoCompra/AdicionarPedidoCompra`;
-
-    return this.http.post<any>(apiUrl, item, {
+    let teste = JSON.stringify(item);
+    console.info(teste);
+    return this.http.post<PedidoCompraRequest>(apiUrl, item, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json, text/plain',
